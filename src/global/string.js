@@ -1,6 +1,7 @@
 module.exports.Errors = {
     recordExists: "Record exists",
-    userExists: "User already exists"
+    userExists: "User already exists",
+    authorizationFailed: "Unauthorized request"
 }
 
 
