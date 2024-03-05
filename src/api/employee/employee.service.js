@@ -40,14 +40,15 @@ module.exports.EmploymentService = class {
 
     //#region get employee list
     async getEmployeeList(body) {
-        const list = await Employee.find({ is_released: EMP_STATUS.ACTIVE }).select([
+        const list = await Employee.find({ is_active: USER_STATUS.ACTIVE }).select([
             '_id',
             'first_name',
             "last_name",
             'employeeJMBG',
             'dob',
             'start_date',
-            'position'])
+            'position',
+            'is_released'])
 
         return successResponse(SUCCESS.dataFetched, HTTP_STATUS_CODE.success, list)
     }
@@ -55,7 +56,7 @@ module.exports.EmploymentService = class {
 
     //#region get employee list
     async getEmployeeListDropdown(body) {
-        const list = await Employee.find({ is_released: EMP_STATUS.ACTIVE }).select([
+        const list = await Employee.find({ is_active: USER_STATUS.ACTIVE }).select([
             '_id',
             'full_name'])
         return successResponse(SUCCESS.dataFetched, HTTP_STATUS_CODE.success, list)
@@ -67,7 +68,8 @@ module.exports.EmploymentService = class {
         requiredFields(body, {
             required: ["employee_id"]
         })
-        await Employee.updateOne({ _id: body.employee_id }, { is_active: USER_STATUS.DE_ACTIVE })
+        await Employee.updateOne({ _id: body.employee_id },
+            { is_released: EMP_STATUS.RELEASED, end_date: new Date() })
         return successResponse(SUCCESS.empDeleted, HTTP_STATUS_CODE.success);
     }
     //#endregion
