@@ -17,20 +17,21 @@ module.exports.UserService = class {
         requiredFields(body, { required: ['token'] })
         const getUserData = await this.googleService.getUserTokenInfo(body.token)
         getUserData.email = getUserData.email.toLowerCase()
-        const checkUser = await User.findOne({
+        let user = await User.findOne({
             email: getUserData.email,
             is_active: USER_STATUS.ACTIVE
         })
-        if (checkUser) throw new HttpError(Errors.userExists, HTTP_STATUS_CODE.bad_request)
-        const payload = {
-            email: getUserData.email.toLowerCase(),
-            first_name: getUserData.given_name,
-            last_name: getUserData.family_name,
+        if (!user) {
+            const payload = {
+                email: getUserData.email.toLowerCase(),
+                first_name: getUserData.given_name,
+                last_name: getUserData.family_name,
+            }
+            payload.token = await this.cryptService.generateWebToken(payload)
+            //create new user
+            user = await new User(payload).save()
         }
-        payload.token = await this.cryptService.generateWebToken(payload)
-        //create new user
-        const newUser = await new User(payload).save()
-        return successResponse(SUCCESS.userCreate, HTTP_STATUS_CODE.create_success, newUser)
+        return successResponse(SUCCESS.userCreate, HTTP_STATUS_CODE.create_success, user)
     }
     //#endregion
 }
