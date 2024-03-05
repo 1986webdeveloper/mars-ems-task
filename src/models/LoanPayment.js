@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { MODEL_NAMES } = require('../global/constant');
 
 const loanPaymentSchema = new mongoose.Schema({
     amount: {
@@ -21,6 +22,6 @@ const loanPaymentSchema = new mongoose.Schema({
     },
 });
 
-const LoanPayment = mongoose.model('LoanPayment', loanPaymentSchema);
+const LoanPayment = mongoose.model(MODEL_NAMES.LoanPayment, loanPaymentSchema);
 
 module.exports = LoanPayment;

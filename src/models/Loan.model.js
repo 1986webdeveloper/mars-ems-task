@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { MODEL_NAMES } = require('../global/constant');
 
 const LoanSchema = new mongoose.Schema({
     amount: {
@@ -27,14 +28,15 @@ const LoanSchema = new mongoose.Schema({
         default: 'BAM',
     },
 
-    employeeJMBG: {
-        type: String,
+    employee_id: {
+        type: mongoose.Types.ObjectId,
         required: true,
+        ref: MODEL_NAMES.Employee,
     },
 }, {
     timestamps: true,
 });
 
-const Loan = mongoose.model('Loan', LoanSchema);
+const Loan = mongoose.model(MODEL_NAMES.Loan, LoanSchema);
 
 module.exports = Loan;

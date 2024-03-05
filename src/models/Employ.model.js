@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { MODEL_NAMES } = require('../global/constant');
 
 const EmployeeSchema = new mongoose.Schema({
     first_name: {
@@ -47,6 +48,6 @@ const EmployeeSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-const Employee = mongoose.model('Employee', EmployeeSchema);
+const Employee = mongoose.model(MODEL_NAMES.Employee, EmployeeSchema);
 
 module.exports = { Employee };

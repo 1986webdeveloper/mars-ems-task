@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { MODEL_NAMES } = require('../global/constant');
 
 const loanPenaltySchema = new mongoose.Schema({
     amount: {
@@ -27,6 +28,6 @@ const loanPenaltySchema = new mongoose.Schema({
     },
 });
 
-const LoanPenalty = mongoose.model('LoanPenalty', loanPenaltySchema);
+const LoanPenalty = mongoose.model(MODEL_NAMES.LoanPenalty, loanPenaltySchema);
 
 module.exports = LoanPenalty;

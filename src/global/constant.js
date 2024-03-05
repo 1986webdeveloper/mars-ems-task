@@ -22,3 +22,16 @@ module.exports.USER_STATUS = {
     ACTIVE: 1,
     DE_ACTIVE: 0
 }
+
+
+module.exports.MODEL_NAMES = {
+    Loan: "loans",
+    Bonus: "bonuses",
+    Employee: "employees",
+    LoanNote: "loanNotes",
+    LoanPayment: "loanPayments",
+    LoanPenalty: "loanPenalties",
+    SalaryRaise: "salaryRaises",
+    User: "users"
+
+}

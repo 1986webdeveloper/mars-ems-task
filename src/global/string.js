@@ -7,5 +7,6 @@ module.exports.Errors = {
 module.exports.SUCCESS = {
     dataFetched: "Data fetched successfully",
     empCreated: "New employee created",
-    userCreate: "User login successfully"
+    userCreate: "User login successfully",
+    loanCreate: "Loan created successfully"
 }

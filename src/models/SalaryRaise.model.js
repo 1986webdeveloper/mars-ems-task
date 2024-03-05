@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { MODEL_NAMES } = require('../global/constant');
 
 const salaryRaiseSchema = new mongoose.Schema({
     amount: {
@@ -21,6 +22,6 @@ const salaryRaiseSchema = new mongoose.Schema({
     },
 });
 
-const SalaryRaise = mongoose.model('SalaryRaise', salaryRaiseSchema);
+const SalaryRaise = mongoose.model(MODEL_NAMES.SalaryRaise, salaryRaiseSchema);
 
 module.exports = SalaryRaise;

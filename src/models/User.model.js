@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { MODEL_NAMES } = require('../global/constant');
 
 const UserSchema = new mongoose.Schema({
     first_name: {
@@ -28,6 +29,6 @@ const UserSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model(MODEL_NAMES.User, UserSchema);
 
 module.exports = { User };

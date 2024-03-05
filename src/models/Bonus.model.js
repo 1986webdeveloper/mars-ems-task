@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { MODEL_NAMES } = require('../global/constant');
 
 const BonusSchema = new mongoose.Schema({
     amount: {
@@ -35,6 +36,6 @@ const BonusSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-const Bonus = mongoose.model('Bonus', BonusSchema);
+const Bonus = mongoose.model(MODEL_NAMES.Bonus, BonusSchema);
 
 module.exports = Bonus;
