@@ -9,5 +9,13 @@ route.post('/create', asyncHandler(async (req, res) => {
     const data = await loanService.createLoan(req.body)
     return res.status(data.statusCode).json(data)
 }))
+route.get('/list', asyncHandler(async (req, res) => {
+    const data = await loanService.getLoanList(req.body)
+    return res.status(data.statusCode).json(data)
+}))
+route.post('/delete/:loan_id', asyncHandler(async (req, res) => {
+    const data = await loanService.deleteLoan(req.params)
+    return res.status(data.statusCode).json(data)
+}))
 
 module.exports.loanRoute = route

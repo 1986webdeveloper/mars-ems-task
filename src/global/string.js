@@ -8,5 +8,7 @@ module.exports.SUCCESS = {
     dataFetched: "Data fetched successfully",
     empCreated: "New employee created",
     userCreate: "User login successfully",
-    loanCreate: "Loan created successfully"
+    loanCreate: "Loan created successfully",
+    loanList: "Loan listed successfully",
+    loanDeleted: "Loan deleted successfully"
 }
