@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { MODEL_NAMES } = require('../global/constant');
+const { MODEL_NAMES,USER_STATUS } = require('../global/constant');
 
 const EmployeeSchema = new mongoose.Schema({
     first_name: {
@@ -10,6 +10,10 @@ const EmployeeSchema = new mongoose.Schema({
     last_name: {
         type: String,
         required: true,
+    },
+    full_name:{
+        type:String,
+        required:true,
     },
 
     dob: {
@@ -44,8 +48,18 @@ const EmployeeSchema = new mongoose.Schema({
     end_date: {
         type: Date,
     },
+    is_deleted:{
+        type:Number,
+        default:USER_STATUS.ACTIVE,
+        enum:[0,1],
+    }
 }, {
     timestamps: true,
+});
+
+EmployeeSchema.pre('save', function(next) {
+    this.full_name = `${this.first_name} ${this.last_name}`;
+    next();
 });
 
 const Employee = mongoose.model(MODEL_NAMES.Employee, EmployeeSchema);

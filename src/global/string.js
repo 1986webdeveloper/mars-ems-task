@@ -10,5 +10,7 @@ module.exports.SUCCESS = {
     userCreate: "User login successfully",
     loanCreate: "Loan created successfully",
     loanList: "Loan listed successfully",
-    loanDeleted: "Loan deleted successfully"
+    loanDeleted: "Loan deleted successfully",
+    penalty: "Penalties added successfully",
+    empDeleted:"Employee Deleted Successfully"
 }

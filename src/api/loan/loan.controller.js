@@ -18,4 +18,9 @@ route.post('/delete/:loan_id', asyncHandler(async (req, res) => {
     return res.status(data.statusCode).json(data)
 }))
 
+route.post('/createpenalty',asyncHandler(async(req,res)=>{
+    const data =await loanService.createPenalties(req.body)
+    return res.status(data.statusCode).json(data)
+}))
+
 module.exports.loanRoute = route

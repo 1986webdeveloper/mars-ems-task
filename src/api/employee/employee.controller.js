@@ -20,6 +20,21 @@ route.get('/get', asyncHandler(async (req, res) => {
 //#endregion
 
 
+//#region  get employee data for dropdown route
+route.get('/getemployees', asyncHandler(async (req, res) => {
+    const data = await service.getEmployeeListDropdown(req.query)
+    return res.status(data.statusCode).json(data)
+}))
+//#endregion
+
+// #region softdelete employee info
+route.patch('/delete/:employee_id',asyncHandler(async(req,res)=>{
+    const data=await service.deleteEmployee(req.params)
+    return res.status(data.statusCode).json(data)
+}))
+//#endregion
+
+
 
 
 module.exports.employeeRoute = route

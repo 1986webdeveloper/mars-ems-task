@@ -2,6 +2,7 @@ const { parseDate, HTTP_STATUS_CODE, USER_STATUS, MODEL_NAMES } = require("../..
 const { requiredFields, successResponse } = require("../../global/handler")
 const { SUCCESS } = require("../../global/string")
 const Loan = require("../../models/Loan.model")
+const LoanPenalty = require("../../models/Penalty.model")
 
 
 
@@ -64,4 +65,22 @@ module.exports.LoanService = class {
         await Loan.updateOne({ _id: body.loan_id }, { is_active: USER_STATUS.DE_ACTIVE })
         return successResponse(SUCCESS.loanDeleted, HTTP_STATUS_CODE.create_success)
     }
+    // region create penalty
+    async createPenalties(penaltiesArray) { // Updated function name and parameter
+        // Check if penaltiesArray is an array
+        if (!Array.isArray(penaltiesArray)) {
+            return errorResponse(ERROR.invalid_request, HTTP_STATUS_CODE.bad_request);
+        }
+    
+        // Check if each penalty object in the array has required fields
+        for (const penalty of penaltiesArray) {
+            requiredFields(body, { required: ['employee_id', 'amount', 'unit', 'date', 'description'] });
+            body.date = parseDate(penalty.date);
+        }
+        // Save each penalty in the array
+        const newPenalties = await Promise.all(penaltiesArray.map(penalty => LoanPenalty(penalty).save()));
+        return successResponse(SUCCESS.penalty, HTTP_STATUS_CODE.create_success, newPenalties);
+
+    }
+    //enndregion
 }
