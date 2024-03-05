@@ -21,6 +21,7 @@ module.exports.EmploymentService = class {
         body.dob = parseDate(body.dob)
         body.start_date = parseDate(body.start_date)
         body.employeeJMBG = body.employeeJMBG.toLowerCase()
+        body.gender = body.gender.toLowerCase()
         const checkEmp = await Employee.findOne({ employeeJMBG: body.employeeJMBG }).select(['_id'])
         if (checkEmp) throw new HttpError(Errors.recordExists, HTTP_STATUS_CODE.bad_request)
         //create new employee
