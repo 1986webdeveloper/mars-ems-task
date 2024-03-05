@@ -36,7 +36,25 @@ const LoanSchema = new mongoose.Schema({
     is_active: {
         type: Number,
         default: USER_STATUS.ACTIVE
-    }
+    },
+    installments: [{
+        amount: {
+            type: Number,
+            default: USER_STATUS.ACTIVE
+        },
+        date: {
+            type: Date,
+            required: true,
+        },
+        paid: {
+            type: Number,
+            enum: [0, 1],
+        },
+        paid_date: {
+            type: Date,
+            required: true,
+        },
+    }]
 }, {
     timestamps: true,
 });

@@ -1,8 +1,16 @@
-const { parseDate, HTTP_STATUS_CODE, EMP_STATUS } = require("../../global/constant")
-const { HttpError, requiredFields, successResponse } = require("../../global/handler")
-const { Errors, SUCCESS } = require("../../global/string")
-const { Employee } = require("../../models/Employ.model")
-
+const {
+    parseDate,
+    HTTP_STATUS_CODE,
+    EMP_STATUS,
+    USER_STATUS
+} = require("../../global/constant");
+const {
+    HttpError,
+    requiredFields,
+    successResponse,
+} = require("../../global/handler");
+const { Errors, SUCCESS } = require("../../global/string");
+const { Employee } = require("../../models/Employ.model");
 
 module.exports.EmploymentService = class {
     constructor() { }
@@ -35,7 +43,8 @@ module.exports.EmploymentService = class {
         const list = await Employee.find({ is_released: EMP_STATUS.ACTIVE }).select([
             '_id',
             'first_name',
-            'last_name',
+            "last_name",
+            'employeeJMBG',
             'dob',
             'start_date',
             'position'])
@@ -43,4 +52,23 @@ module.exports.EmploymentService = class {
         return successResponse(SUCCESS.dataFetched, HTTP_STATUS_CODE.success, list)
     }
     //#endregion
-}
+
+    //#region get employee list
+    async getEmployeeListDropdown(body) {
+        const list = await Employee.find({ is_released: EMP_STATUS.ACTIVE }).select([
+            '_id',
+            'full_name'])
+        return successResponse(SUCCESS.dataFetched, HTTP_STATUS_CODE.success, list)
+    }
+    //#endregion
+
+    // #region soft delete employee
+    async deleteEmployee(body) {
+        requiredFields(body, {
+            required: ["employee_id"]
+        })
+        await Employee.updateOne({ _id: body.employee_id }, { is_active: USER_STATUS.DE_ACTIVE })
+        return successResponse(SUCCESS.empDeleted, HTTP_STATUS_CODE.success);
+    }
+    //#endregion
+};

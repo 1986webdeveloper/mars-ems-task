@@ -10,7 +10,7 @@ module.exports.ApplicationRouting = (app) => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
     //routing
-    app.use("/api/employee/", asyncHandler(userAuth), employeeRoute);
     app.use("/api/user/", userRoute);
+    app.use("/api/employee/", asyncHandler(userAuth), employeeRoute);
     app.use("/api/loan/", asyncHandler(userAuth), loanRoute);
 }
