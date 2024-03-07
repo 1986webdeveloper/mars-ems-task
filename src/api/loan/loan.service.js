@@ -1,6 +1,6 @@
-const { parseDate, HTTP_STATUS_CODE, USER_STATUS, MODEL_NAMES } = require("../../global/constant")
+const { parseDate, HTTP_STATUS_CODE, USER_STATUS, MODEL_NAMES, PAYMENT_STATUS } = require("../../global/constant")
 const { requiredFields, successResponse, HttpError } = require("../../global/handler")
-const { SUCCESS } = require("../../global/string")
+const { SUCCESS, Errors } = require("../../global/string")
 const Loan = require("../../models/Loan.model")
 const LoanPenalty = require("../../models/Penalty.model")
 
@@ -16,15 +16,16 @@ module.exports.LoanService = class {
                 "employee_id",
                 "amount",
                 "installment",
-                "date",
                 "description",
                 "unit",
             ],
         });
-        body.date = parseDate(body.date);
 
         // add installmensts array in loan
-        const installmentsArray = generateInstallments(body.amount, body.installment);
+        body.date = new Date();
+        body.amount = +(body?.amount ?? 0)
+        body.installment = +(body?.installment ?? 0)
+        const installmentsArray = this.generateInstallments(body.amount, body.installment);
         body.installments = installmentsArray;
         //create new loan
         const newLoan = await Loan(body).save();
@@ -82,29 +83,29 @@ module.exports.LoanService = class {
     //#endregion
 
     //region installments array
-    async generateInstallments(amount, installment) {
-        const totalInstallments = amount / installment;
-
+    generateInstallments(amount, installment) {
+        const totalInstallments = Math.floor(amount / installment);
         const installmentsArray = [];
-
         // Start date from 1st April
-        let currentDate = new Date("2024-04-01");
-
+        let currentDate = new Date();
+        //set default date
+        currentDate.setDate(1)
         for (let i = 0; i < totalInstallments; i++) {
-            // Push installment object into installments array
-            const data = {
-                amount: installment,
-                date: new Date(currentDate),
-                paid: 0,
-                paid_date: null,
-            };
-            installmentsArray.push(data);
-
-            // Move to next month
-            currentDate.setMonth(currentDate.getMonth() + 1);
+            // start from next month
+            try {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                const data = {
+                    amount: installment,
+                    date: new Date(currentDate),
+                    paid: PAYMENT_STATUS.UN_PAID,
+                    paid_date: null,
+                };
+                installmentsArray.push(data);
+            } catch (error) { }
         }
         return installmentsArray;
     }
+    //#endregion
 
     //#region  delete loan
     async deleteLoan(body) {
@@ -116,12 +117,11 @@ module.exports.LoanService = class {
     async createPenalties(body) { // Updated function name and parameter
         // Check if payload is an array
         const payload = body?.payload ?? []
-        if (payload.length == 0)
-            throw new HttpError(ERROR.invalid_request, HTTP_STATUS_CODE.bad_request);
+        requiredFields(body, { required: ['payload'] })
         // Check if each penalty object in the array has required fields
         for (const penalty of payload) {
-            requiredFields(body, { required: ['employee_id', 'amount', 'unit', 'date', 'description'] });
-            body.date = parseDate(penalty.date)
+            requiredFields(penalty, { required: ['employee_id', 'amount', 'unit', 'description'] });
+            penalty.date = new Date()
         }
         await LoanPenalty.insertMany(payload)
         return successResponse(SUCCESS.penalty, HTTP_STATUS_CODE.create_success);
@@ -140,3 +140,4 @@ module.exports.LoanService = class {
     }
     //#endregion
 };
+//  throw new HttpError(ERROR.invalid_request, HTTP_STATUS_CODE.bad_request);

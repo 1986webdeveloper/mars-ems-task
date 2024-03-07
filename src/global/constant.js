@@ -23,6 +23,11 @@ module.exports.USER_STATUS = {
     DE_ACTIVE: 0
 }
 
+module.exports.PAYMENT_STATUS = {
+    PAID: 1,
+    UN_PAID: 0
+}
+
 
 module.exports.MODEL_NAMES = {
     Loan: "loans",

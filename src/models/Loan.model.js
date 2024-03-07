@@ -52,7 +52,6 @@ const LoanSchema = new mongoose.Schema({
         },
         paid_date: {
             type: Date,
-            required: true,
         },
     }]
 }, {
