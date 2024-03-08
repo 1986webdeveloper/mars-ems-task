@@ -1,7 +1,8 @@
 module.exports.Errors = {
     recordExists: "Record exists",
     userExists: "User already exists",
-    authorizationFailed: "Unauthorized request"
+    authorizationFailed: "Unauthorized request",
+    userNotExists:"User Not exist"
 }
 
 
@@ -13,5 +14,7 @@ module.exports.SUCCESS = {
     loanList: "Loan listed successfully",
     loanDeleted: "Loan deleted successfully",
     penalty: "Penalties added successfully",
-    empDeleted:"Employee Deleted Successfully"
+    empDeleted: "Employee Deleted successfully",
+    bonus: "Bonus Added successfully",
+    empUpdate: "Employee Details Update successfully"
 }

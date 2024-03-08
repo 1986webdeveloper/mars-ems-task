@@ -24,6 +24,7 @@ module.exports.EmploymentService = class {
                 'gender',
                 'position',
                 'dob',
+                'salary',
                 'employeeJMBG']
         })
         body.dob = parseDate(body.dob)
@@ -46,8 +47,10 @@ module.exports.EmploymentService = class {
             "last_name",
             'employeeJMBG',
             'dob',
+            'gender',
             'start_date',
             'position',
+            'salary',
             'is_released'])
 
         return successResponse(SUCCESS.dataFetched, HTTP_STATUS_CODE.success, list)
@@ -72,5 +75,31 @@ module.exports.EmploymentService = class {
             { is_released: EMP_STATUS.RELEASED, end_date: new Date() })
         return successResponse(SUCCESS.empDeleted, HTTP_STATUS_CODE.success);
     }
+    //#endregion
+
+    // #region update employee
+    async updateEmployee(params, body) {
+        requiredFields(params, { required: ['employee_id'] })
+        requiredFields(body, {
+            required: ['first_name',
+                'last_name',
+                'gender',
+                'position',
+                'dob',
+                'salary',
+                'employeeJMBG']
+        })
+
+        const existEmployee = await Employee.findOne({ _id: params.employee_id, is_active: USER_STATUS.ACTIVE })
+        if (!existEmployee) {
+            throw new HttpError(Errors.userNotExists, HTTP_STATUS_CODE.bad_request)
+        }
+        body.end_date = parseDate(body.end_date)
+        body.dob = parseDate(body.dob)
+        body.start_date = parseDate(body.start_date)
+        await Employee.findOneAndUpdate({ _id: params.employee_id }, body)
+        return successResponse(SUCCESS.empUpdate, HTTP_STATUS_CODE.success);
+    }
+
     //#endregion
 };

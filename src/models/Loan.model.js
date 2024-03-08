@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { MODEL_NAMES, USER_STATUS } = require('../global/constant');
+const { MODEL_NAMES, USER_STATUS, CONFIRM_STATUS } = require('../global/constant');
 
 const LoanSchema = new mongoose.Schema({
     amount: {
@@ -36,6 +36,10 @@ const LoanSchema = new mongoose.Schema({
     is_active: {
         type: Number,
         default: USER_STATUS.ACTIVE
+    },
+    is_confirm: {
+        type: Number,
+        default: CONFIRM_STATUS.PENDING
     },
     installments: [{
         amount: {

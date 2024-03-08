@@ -32,4 +32,11 @@ route.post('/create_penalties', asyncHandler(async (req, res) => {
 }))
 //#endregion
 
+//#region  create 
+route.post('/create_bonus', asyncHandler(async (req, res) => {
+    const data = await loanService.createBonus(req.body)
+    return res.status(data.statusCode).json(data)
+}))
+//#endregion
+
 module.exports.loanRoute = route

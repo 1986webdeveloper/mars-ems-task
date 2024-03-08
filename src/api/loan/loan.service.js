@@ -1,6 +1,7 @@
 const { parseDate, HTTP_STATUS_CODE, USER_STATUS, MODEL_NAMES, PAYMENT_STATUS } = require("../../global/constant")
 const { requiredFields, successResponse, HttpError } = require("../../global/handler")
 const { SUCCESS, Errors } = require("../../global/string")
+const Bonus = require("../../models/Bonus.model")
 const Loan = require("../../models/Loan.model")
 const LoanPenalty = require("../../models/Penalty.model")
 
@@ -139,5 +140,21 @@ module.exports.LoanService = class {
         );
     }
     //#endregion
+
+    // region create bonus
+    async createBonus(body) {
+        // Check if payload is an array
+        const payload = body?.payload ?? []
+        requiredFields(body, { required: ['payload'] })
+        // Check if each penalty object in the array has required fields
+        for (const bonus of payload) {
+            requiredFields(bonus, { required: ['employee_id', 'amount', 'unit', 'description'] });
+            bonus.date = new Date()
+        }
+        await Bonus.insertMany(payload)
+        return successResponse(SUCCESS.bonus, HTTP_STATUS_CODE.create_success);
+    }
+
+    //
 };
 //  throw new HttpError(ERROR.invalid_request, HTTP_STATUS_CODE.bad_request);

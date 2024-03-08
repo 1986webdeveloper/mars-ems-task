@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { MODEL_NAMES } = require('../global/constant');
+const { MODEL_NAMES, CONFIRM_STATUS } = require('../global/constant');
 
 const loanPenaltySchema = new mongoose.Schema({
     amount: {
@@ -22,11 +22,15 @@ const loanPenaltySchema = new mongoose.Schema({
         type: String,
     },
 
-    employee_id:{
-        type:mongoose.Types.ObjectId,
-        required:true,
-        ref:MODEL_NAMES.Employee,
-    }
+    employee_id: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: MODEL_NAMES.Employee,
+    },
+    is_confirm: {
+        type: Number,
+        default: CONFIRM_STATUS.PENDING
+    },
 });
 
 const LoanPenalty = mongoose.model(MODEL_NAMES.LoanPenalty, loanPenaltySchema);

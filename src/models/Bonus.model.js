@@ -1,13 +1,8 @@
 const mongoose = require('mongoose');
-const { MODEL_NAMES } = require('../global/constant');
+const { MODEL_NAMES, CONFIRM_STATUS } = require('../global/constant');
 
 const BonusSchema = new mongoose.Schema({
     amount: {
-        type: Number,
-        required: true,
-    },
-
-    installment: {
         type: Number,
         required: true,
     },
@@ -27,11 +22,16 @@ const BonusSchema = new mongoose.Schema({
         enum: ['BAM', '$'],
         default: 'BAM',
     },
-
-    employeeJMBG: {
-        type: String,
+    employee_id: {
+        type: mongoose.Types.ObjectId,
         required: true,
+        ref: MODEL_NAMES.Employee,
     },
+    is_confirm: {
+        type: Number,
+        default: CONFIRM_STATUS.PENDING
+    },
+
 }, {
     timestamps: true,
 });

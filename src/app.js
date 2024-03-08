@@ -9,7 +9,7 @@ const app = express();
 ApplicationRouting(app)
 
 //new server
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4949;
 
 app.listen(port, () => {
     console.log(`Server is listening at http://localhost:${port}`);

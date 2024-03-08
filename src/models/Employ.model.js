@@ -46,6 +46,10 @@ const EmployeeSchema = new mongoose.Schema({
     end_date: {
         type: Date,
     },
+    salary: {
+        type: Number,
+        required: true,
+    },
     is_active: {
         type: Number,
         default: USER_STATUS.ACTIVE,
@@ -56,7 +60,16 @@ const EmployeeSchema = new mongoose.Schema({
 });
 
 EmployeeSchema.pre('save', function (next) {
-    this.full_name = `${this.first_name} ${this.last_name}`;
+    // For new documents, update the full_name field
+    if (this.isNew) {
+        this.full_name = `${this.first_name} ${this.last_name}`;
+    }
+    next();
+});
+
+EmployeeSchema.pre('findOneAndUpdate', function (next) {
+    // For updates, set the full_name field in the update object
+    this._update.full_name = `${this._update.first_name} ${this._update.last_name}`;
     next();
 });
 

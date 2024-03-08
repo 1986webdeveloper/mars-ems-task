@@ -28,6 +28,11 @@ module.exports.PAYMENT_STATUS = {
     UN_PAID: 0
 }
 
+module.exports.CONFIRM_STATUS = {
+    CONFIRMED: 1,
+    PENDING: 0
+}
+
 
 module.exports.MODEL_NAMES = {
     Loan: "loans",
@@ -37,6 +42,6 @@ module.exports.MODEL_NAMES = {
     LoanPayment: "loanPayments",
     LoanPenalty: "loanPenalties",
     SalaryRaise: "salaryRaises",
-    User: "users"
-
+    User: "users",
+    Report:"reports"
 }

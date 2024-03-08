@@ -34,6 +34,14 @@ route.post('/delete/:employee_id', asyncHandler(async (req, res) => {
 }))
 //#endregion
 
+// #region update employee info
+route.post('/update/:employee_id', asyncHandler(async (req, res) => {
+    const data = await service.updateEmployee(req.params, req.body)
+    return res.status(data.statusCode).json(data)
+}))
+//#endregion
+
+
 
 
 
